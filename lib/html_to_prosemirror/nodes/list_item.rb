@@ -16,7 +16,7 @@ module HtmlToProsemirror
         end
 
         {
-          type: "list_item"
+          type: "listItem"
         }
       end
     end
