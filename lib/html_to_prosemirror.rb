@@ -48,7 +48,7 @@ module HtmlToProsemirror
     def render(value)
       minified = minify_html(value.strip! || value)
       @document = Nokogiri::HTML.fragment(minified)
-      content = render_children(@document)
+      content = render_children(cleanup_image_paragraphs(@document))
       return {
         type: 'doc',
         content: content,
@@ -59,6 +59,17 @@ module HtmlToProsemirror
     # def get_document_body
     #   return @document.search('body')[0];
     # end
+
+    def cleanup_image_paragraphs(node)
+      node.css('p').each do |p_tag|
+        img_tag = p_tag.at('img')
+        if img_tag and p_tag.children.size == 1
+          p_tag.replace(img_tag)
+        end
+      end
+
+      node
+    end
 
     def render_children(node)
       nodes = []
