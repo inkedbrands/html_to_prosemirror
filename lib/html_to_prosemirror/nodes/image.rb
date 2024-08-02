@@ -9,7 +9,10 @@ module HtmlToProsemirror
       def data
         {
           type: "image",
-          src: @node.attribute('src').value
+          attrs: {
+            src: @node.attribute('src').value,
+            alt: @node.attribute('alt')&.value || '',
+          }
         }
       end
     end
