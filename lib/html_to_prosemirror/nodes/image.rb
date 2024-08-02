@@ -8,14 +8,8 @@ module HtmlToProsemirror
 
       def data
         {
-          type: "text",
-          text: @node.attribute('src').value,
-          marks: [{
-            type: 'link',
-            attrs: {
-              href: @node.attribute('src').value
-            }
-          }]
+          type: "image",
+          src: @node.attribute('src').value
         }
       end
     end
