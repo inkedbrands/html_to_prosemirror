@@ -8,7 +8,7 @@ module HtmlToProsemirror
 
       def data
         {
-          type: "bullet_list"
+          type: "bulletList"
         }
       end
     end

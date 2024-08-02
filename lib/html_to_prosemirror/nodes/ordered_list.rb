@@ -8,7 +8,7 @@ module HtmlToProsemirror
 
       def data
         {
-          type: "ordered_list",
+          type: "orderedList",
           attrs: {
             order: 1
           }

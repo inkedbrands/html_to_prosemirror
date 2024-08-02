@@ -8,7 +8,7 @@ module HtmlToProsemirror
 
       def data
         {
-          type: "hard_break"
+          type: "hardBreak"
         }
       end
     end
