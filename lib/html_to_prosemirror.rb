@@ -147,6 +147,7 @@ module HtmlToProsemirror
         gsub(/(\n|\t)/, ' ').
         gsub(/\s{2,}/, ' ').
         gsub('&nbsp;', ' ').
+        gsub(/<p>\s*<\/p>/, '').
         gsub(/>\s+</, '><').strip
     end
   end
