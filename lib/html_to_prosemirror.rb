@@ -10,6 +10,7 @@ require "html_to_prosemirror/nodes/code_block_wrapper"
 require "html_to_prosemirror/nodes/code_block"
 require "html_to_prosemirror/nodes/hard_break"
 require "html_to_prosemirror/nodes/heading"
+require "html_to_prosemirror/nodes/iframe"
 require "html_to_prosemirror/nodes/image"
 require "html_to_prosemirror/nodes/list_item"
 require "html_to_prosemirror/nodes/ordered_list"
@@ -36,6 +37,7 @@ module HtmlToProsemirror
         HtmlToProsemirror::Nodes::CodeBlock,
         HtmlToProsemirror::Nodes::HardBreak,
         HtmlToProsemirror::Nodes::Heading,
+        HtmlToProsemirror::Nodes::Iframe,
         HtmlToProsemirror::Nodes::Image,
         HtmlToProsemirror::Nodes::ListItem,
         HtmlToProsemirror::Nodes::OrderedList,
@@ -48,7 +50,7 @@ module HtmlToProsemirror
     def render(value)
       minified = minify_html(value.strip! || value)
       @document = Nokogiri::HTML.fragment(minified)
-      content = render_children(cleanup_image_paragraphs(@document))
+      content = render_children(cleanup_paragraphs(@document))
       return {
         type: 'doc',
         content: content,
@@ -60,11 +62,12 @@ module HtmlToProsemirror
     #   return @document.search('body')[0];
     # end
 
-    def cleanup_image_paragraphs(node)
+    def cleanup_paragraphs(node)
       node.css('p').each do |p_tag|
-        img_tag = p_tag.at('img')
-        if img_tag and p_tag.children.size == 1
-          p_tag.replace(img_tag)
+        only_child = p_tag.children.length == 1 ? p_tag.children.first : nil
+
+        if only_child && %w[img iframe].include?(only_child.name)
+          p_tag.replace(only_child)
         end
       end
 
@@ -144,6 +147,7 @@ module HtmlToProsemirror
         gsub(/(\n|\t)/, ' ').
         gsub(/\s{2,}/, ' ').
         gsub('&nbsp;', ' ').
+        gsub(/<p>\s*<\/p>/, '').
         gsub(/>\s+</, '><').strip
     end
   end
