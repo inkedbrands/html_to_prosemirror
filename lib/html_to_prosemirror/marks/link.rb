@@ -10,7 +10,7 @@ module HtmlToProsemirror
         {
           type: "link",
           attrs: {
-            href: @node.attribute('href').value
+            href: @node.attribute('href')&.value.to_s
           }
         }
       end
