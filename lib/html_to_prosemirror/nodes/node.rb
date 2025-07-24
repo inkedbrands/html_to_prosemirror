@@ -3,6 +3,7 @@ module HtmlToProsemirror
 
     class Node
       attr_writer :wrapper
+      attr_reader :wrapper
       attr_writer :type
 
       def type

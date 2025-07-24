@@ -97,13 +97,15 @@ module HtmlToProsemirror
               })
               @storedMarks = [];
           end
-          # if (child_node.wrapper)
-          #   item['content'] = [
-          #     instance.wrapper.merge({
-          #       content: item['content'],
-          #     }),
-          #   ]
-          # end
+          if child_node.wrapper
+            inner_content = item[:content] || []
+
+            item[:content] = [
+              child_node.wrapper.merge({
+                                         content: inner_content,
+                                       }),
+            ]
+          end
           nodes.push(item)
         end
 

@@ -11,9 +11,12 @@ module HtmlToProsemirror
       end
 
       def data
-        if(@node.children.length === 1 && @node.children[0].name === 'p')
-          @wrapper = nil
-        end
+        only_child_is_paragraph = (
+          @node.children.count { |n| n.element? || n.text? } == 1 &&
+            @node.children.first.name == 'p'
+        )
+
+        @wrapper = nil if only_child_is_paragraph
 
         {
           type: "listItem"
