@@ -49,7 +49,8 @@ module HtmlToProsemirror
 
     def render(value)
       minified = minify_html(value.strip! || value)
-      @document = Nokogiri::HTML.fragment(minified)
+      cleaned = remove_spans(minified)
+      @document = Nokogiri::HTML.fragment(cleaned)
       content = render_children(cleanup_paragraphs(@document))
       return {
         type: 'doc',
@@ -61,6 +62,12 @@ module HtmlToProsemirror
     # def get_document_body
     #   return @document.search('body')[0];
     # end
+
+    def remove_spans(html)
+      fragment = Nokogiri::HTML::DocumentFragment.parse(html)
+      fragment.css('span').each { |span| span.replace(span.children) }
+      fragment.to_html
+    end
 
     def cleanup_paragraphs(node)
       node.css('p').each do |p_tag|
