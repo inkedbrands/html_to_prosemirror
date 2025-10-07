@@ -4,6 +4,8 @@ require "html_to_prosemirror/marks/bold"
 require "html_to_prosemirror/marks/code"
 require "html_to_prosemirror/marks/italic"
 require "html_to_prosemirror/marks/link"
+require "html_to_prosemirror/marks/subscript"
+require "html_to_prosemirror/marks/superscript"
 require "html_to_prosemirror/nodes/node"
 require "html_to_prosemirror/nodes/bullet_list"
 require "html_to_prosemirror/nodes/code_block_wrapper"
@@ -29,7 +31,9 @@ module HtmlToProsemirror
         HtmlToProsemirror::Marks::Bold,
         HtmlToProsemirror::Marks::Code,
         HtmlToProsemirror::Marks::Italic,
-        HtmlToProsemirror::Marks::Link
+        HtmlToProsemirror::Marks::Link,
+        HtmlToProsemirror::Marks::Subscript,
+        HtmlToProsemirror::Marks::Superscript,
       ]
       @nodes = [
         HtmlToProsemirror::Nodes::BulletList,
